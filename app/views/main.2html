@@ -1,0 +1,237 @@
+﻿<!--<script type="text/javascript">-->
+<!--$(function(){-->
+<!--applyMultiSrc("assets/config.video.json");-->
+<!--});-->
+<!--</script>-->
+
+<div class="container">
+    <h1 class="media-heading">
+        <div class="featurette" >
+            <!------------------------code---------------start---------------->
+            <div class="container content" style="background-color: #F3F3F3">
+                <div class="row">
+                    <!--<video id='main-video' class="video-js vjs-default-skin pull-left" controls preload="auto"-->
+                    <!--autoplay data-setup='{ "playbackRates": [0.5, 1, 1.5, 2] , "buffered" : 0 }'-->
+                    <!--height="500">-->
+                    <!--<source src="video/sample.mp4">-->
+                        <div>
+                            Main Video
+                        </div>
+                        <video id="myVideo" class="video-js vjs-default-skin" data-setup="{}" width="800" height="450" controls
+                           preload="auto">
+                        <source src='video/sample.mp4'>
+                    </video>
+                    <script>
+                        /**
+                         *  ===== VideoJs Register Components =====
+                         */
+                        var videoPlayer = videojs("#myVideo");
+                        var videoJsButtonClass = videojs.getComponent('Button');
+
+                        /* ===== VideoJs annotation ===== */
+                        var annotationButtonClass = videojs.extend(videoJsButtonClass, {
+                            constructor: function () {
+                                videoJsButtonClass.call(this, videoPlayer);
+                            },
+                            handleClick: function () {
+                                var filePath = videoPlayer.src();
+                                window.location.assign(filePath + '?download=true');
+                            }
+                        });
+                        var downloadButton = videoPlayer.controlBar.addChild(new annotationButtonClass());
+                        downloadButton.addClass("vjs-subtitles-button");
+
+                        /* ===== Capture Screen ===== */
+                        var snapshotButtonClass = videojs.extend(videoJsButtonClass, {
+                            constructor: function () {
+                                videoJsButtonClass.call(this, videoPlayer);
+                            },
+                            handleClick: function () {
+                                videoPlayer.pause(); // Pause first;
+                                // Init
+                                var video = videoPlayer.el().querySelector('video');
+                                var canvas = document.createElement('canvas');
+                                canvas.width = 800;
+                                canvas.height = 400;
+                                var context = canvas.getContext('2d');
+
+//                                console.log("Creating... png: ", video.videoHeight, video.videoWidth);
+                                context.drawImage(video, 0, 0, 800, 400);
+                                var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+
+                                var link = document.createElement('a');
+                                link.download =
+                                        videoPlayer.src().match(/\w*[.]\w*$/)[0]
+                                        + "_"
+                                        + parseInt(videoPlayer.currentTime() / 60, 10)
+                                        + "_"
+                                        + parseFloat(videoPlayer.currentTime() % 60, 10.2).toFixed(2) + ".png";
+                                link.href = image;
+                                link.click();
+                            }
+                        });
+                        var snapshotButton = videoPlayer.controlBar.addChild(new snapshotButtonClass());
+                        snapshotButton.addClass("vjs-captions-button");
+
+                        /* ===== Annotation  ===== */
+                        var annotationButtonClass = videojs.extend(videoJsButtonClass, {
+                            constructor: function () {
+                                videoJsButtonClass.call(this, videoPlayer);
+                            },
+                            handleClick: function () {
+                                videoPlayer.viewAnnotation({
+                                    player: videoPlayer,
+                                    video: document.querySelector('#myVideo')
+                                });
+                            }
+                        });
+                        var annotationButton = videoPlayer.controlBar.addChild(new annotationButtonClass());
+                        annotationButton.addClass("vjs-descriptions-button");
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </h1>
+
+    <div class="featurette">
+        <!------------------------code---------------start---------------->
+        <!--<div id="videos-container" class="container">-->
+        <!--<div class="row">-->
+        <!--<div class="col-md-3" ng-repeat="videoSrc in main.videoArray">-->
+        <!--<div class="thumbnail ">-->
+        <!--<video class="image_picker_image video-js vjs-default-skin " width="200" heigth="125" autoplay="true"-->
+        <!--data-setup="{}">-->
+        <!--<source src='{{videoSrc.url}}' type={{videoSrc.type}}>-->
+        <!--</video>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <ul class="thumbnails image_picker_selector">
+            <li ng-repeat="videoSrc in main.videoArray">
+                <div ng-class="videoSrc.selected ? 'thumbnail selected' : 'thumbnail' "
+                     ng-click="main.addToFullList(videoSrc)"
+                     ng-dblclick="main.changeMainVideo(videoSrc)">
+                    <video id="{{videoSrc.id}}_sm_vid"  width="200" height="125" autoplay >
+                        <source src="{{videoSrc.url}}">
+                    </video>
+                    <p class="text-detail">{{videoSrc.id}}</p>
+                </div>
+            </li>
+            <li>
+                <a class="btn btn-info btn-lg"
+                   data-toggle="modal"
+                   data-target="#add_src_modal">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
+            </li>
+        </ul>
+        <!----Code------end----------------------------------->
+    </div>
+
+    <button class="full-screen-button"
+            data-toggle="modal"
+            data-target="#fsModal"
+            ng-click="main.loadFullScreen()">
+        View Fullscreen Modal
+    </button>
+
+    <script>
+        $(window).scroll(function () {
+            if ($(this).scrollTop() != 0) {
+                $('.full-screen-button').fadeIn();
+            } else {
+                $('.full-screen-button').fadeOut();
+            }
+        });
+
+        //        $('.full-screen-button').click(function() {
+        //            $('body,html').animate({scrollTop:0},"fast");
+        //        });
+    </script>
+
+</div>
+
+<div class="modal fade" id="videoUrlModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="background: #BDBDBD ">
+                <input type="url" id="textareaID1" class="form-control input-sm" placeholder="Video URL"/>
+            </div>
+            <div class="pull-right">
+                <button id="modalSaveButton" type="button" class="btn btn-default btn-xs">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- modal -->
+<div id="fsModal"
+     class="modal animated bounceIn"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+
+    <!-- dialog -->
+    <div class="modal-dialog">
+
+        <!-- body -->
+        <div id="full-screen-body" class="modal-body four-container">
+            <div class="one col" ng-repeat="selectedVideo in main.videosSelected">
+                <video id="{{selectedVideo.id}}_vid" class="video-js vjs-default-skin full-video" controls autoplay
+                       data-setup="{}">
+                    <source src="{{selectedVideo.url}}">
+                </video>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <div class="modal fade" id="add_src_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">New video</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-control-label">Id:</label>
+                            <input type="text" class="form-control" ng-model="main.addingVideo.id">
+                        </div>
+                        <div class="form-group">
+                            <label  class="form-control-label">Url: </label>
+                            <textarea class="form-control" ng-model="main.addingVideo.url"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label">Annotation: </label>
+                            <textarea class="form-control" ng-model="main.addingVideo.annoPath"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">Type: </label>
+                            <select class="form-control" ng-model="main.addingVideo.type">
+                                <option value="video/rtmp">rtmp</option>
+                                <option value="video/mp4">mp4</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="main.addVideoSrc()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

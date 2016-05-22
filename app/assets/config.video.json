@@ -1,0 +1,51 @@
+[
+  {
+    "id"        : "video1",
+    "url"       : "video/sample.mp4",
+    "annoPath"  : "video/annotation.json"
+  },
+  {
+    "id"        : "video2",
+    "url"       : "rtmp://s1.thailandstreaming.net:1935/lkmetro/lkmetro3.stream"
+  },
+  {
+    "id"        : "video3",
+    "url"       : "video/sample2.mp4"
+  },
+  {
+    "id"        : "video3",
+    "url"       : "video/sample.mp4"
+  },
+  {
+    "id"        : "video3",
+    "url"       : "video/sample2.mp4"
+  },
+  {
+    "id"        : "video3",
+    "url"       : "video/sample.mp4"
+  },
+  {
+    "id"        : "video3",
+    "url"       : "video/sample2.mp4"
+  },
+  {
+    "id"        : "video3",
+    "url"       : "video/sample.mp4"
+  },
+  {
+    "id"        : "video3",
+    "url"       : "video/sample2.mp4"
+  },
+  {
+    "id"        : "video3",
+    "url"       : "video/sample.mp4"
+  },
+  {
+    "id"        : "video3",
+    "url"       : "video/sample2.mp4"
+  },
+  {
+    "id"        : "video3",
+    "url"       : "video/sample.mp4"
+  }
+]

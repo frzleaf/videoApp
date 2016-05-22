@@ -1,0 +1,254 @@
+﻿<!--<script type="text/javascript">-->
+<!--$(function(){-->
+<!--applyMultiSrc("assets/config.video.json");-->
+<!--});-->
+<!--</script>-->
+
+
+
+<div class="container">
+    <h1 class="media-heading">
+        <div class="body-top">
+            <!------------------------code---------------start---------------->
+            <div class="container-fluid">
+                <div class="row main-content" >
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="main-title">
+                                Video: {{main.mainVideo.id}}
+                            </div>
+                            <div class="col-md-9 height-482" id="left">
+                                <video id="mainVideo" class="content video-js vjs-default-skin full-video"
+                                       preload="auto" controls
+                                       data-setup="{}" >
+                                    <source src='video/sample.mp4'>
+                                </video>
+                            </div>
+                            <div class="col-md-3 height-482" id="right">
+                                <div class="text-top-col">
+                                    Screen shot
+                                </div>
+                                <div class="ss-content">
+                                    <div id="links">
+                                        <!--<div class="w3s-img">-->
+                                        <!--<a href='{{image.data}}' title="Banana" data-gallery>-->
+                                        <!--<img src='{{image.data}}' alt="Northern Lights" width="200" height="200">-->
+                                        <!--</a>-->
+                                        <!--<div class="w3s-img-desc">{{image.name}}</div>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container content" style="background-color: #F3F3F3">
+                <div class="row">
+                    <!--<video id='main-video' class="video-js vjs-default-skin pull-left" controls preload="auto"-->
+                    <!--autoplay data-setup='{ "playbackRates": [0.5, 1, 1.5, 2] , "buffered" : 0 }'-->
+                    <!--height="500">-->
+                    <!--<source src="video/sample.mp4">-->
+
+                    <script>
+
+                        /**
+                         *  ===== VideoJs Register Components =====
+                         */
+                        var videoPlayer = videojs("#mainVideo");
+                        //TODO to compllete
+                        setTimeout(function(){
+                            videoPlayer.captureScreen(
+                                    angular.element($('#lethApp')).scope().$$childHead.thumbImages
+                                    ,4
+                            );
+                        },100);
+
+
+                        /* ===== Annotation  ===== */
+                        var annotationButtonClass = videojs.extend(videoJsButtonClass, {
+                            constructor: function () {
+                                videoJsButtonClass.call(this, videoPlayer);
+                            },
+                            handleClick: function () {
+                                videoPlayer.viewAnnotation({
+                                    player: videoPlayer,
+                                    video: document.querySelector('#mainVideo')
+                                });
+                            }
+                        });
+
+                        var annotationButton = videoPlayer.controlBar.addChild(new annotationButtonClass());
+                        annotationButton.addClass("vjs-descriptions-button");
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </h1>
+
+    <div class="body-bottom">
+        <div>
+            <h3>Other videos</h3>
+        </div>
+        <ul class="thumbnails image_picker_selector">
+            <li ng-repeat="videoSrc in main.videoArray">
+                <div ng-class="videoSrc.selected ? 'thumbnail selected' : 'thumbnail' "
+                     ng-click="main.addToFullList(videoSrc)"
+                     ng-dblclick="main.changeMainVideo(videoSrc, 'mainVideo')">
+                    <video  class="video-js vjs-default-skin" id="{{videoSrc.id}}_sm_vid"
+                            width="200"
+                            height="125"
+                            autoplay
+                            loop
+                            data-setup='{}'>
+                        <source src="{{trustSrc(videoSrc.url)}}">
+                    </video>
+                    <p class="text-detail">{{videoSrc.id}}</p>
+                </div>
+            </li>
+            <li>
+                <a class="btn btn-info btn-lg"
+                   data-toggle="modal"
+                   data-target="#add_src_modal">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
+            </li>
+        </ul>
+        <!----Code------end----------------------------------->
+    </div>
+
+    <button class="full-screen-button"
+            data-toggle="modal"
+            data-target="#fsModal"
+            ng-click="main.loadFullScreen()">
+        Open observer mode
+    </button>
+
+    <script>
+        $(window).scroll(function () {
+            if ($(this).scrollTop() != 0) {
+                $('.full-screen-button').fadeIn();
+            } else {
+                $('.full-screen-button').fadeOut();
+            }
+        });
+
+        //        $('.full-screen-button').click(function() {
+        //            $('body,html').animate({scrollTop:0},"fast");
+        //        });
+    </script>
+
+</div>
+
+<div class="modal fade" id="videoUrlModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="background: #BDBDBD ">
+                <input type="url" id="textareaID1" class="form-control input-sm" placeholder="Video URL"/>
+            </div>
+            <div class="pull-right">
+                <button id="modalSaveButton" type="button" class="btn btn-default btn-xs">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- modal -->
+<div id="fsModal"
+     class="modal animated bounceIn"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+
+    <!-- dialog -->
+    <div class="modal-full-dialog">
+
+        <!-- body -->
+        <div id="full-screen-body" class="modal-full-body four-container">
+            <div class="one col" ng-repeat="selectedVideo in main.videosSelected">
+                <video id="{{selectedVideo.id}}_vid" class="video-js vjs-default-skin full-video"
+                       loop controls autoplay
+                       data-setup='{}'>
+                    <source src="{{trustSrc(selectedVideo.url)}}">
+                </video>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <div class="modal fade" id="add_src_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">New video</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-control-label">Id:</label>
+                            <input type="text" class="form-control" ng-model="main.addingVideo.id">
+                        </div>
+                        <div class="form-group">
+                            <label  class="form-control-label">Url: </label>
+                            <textarea class="form-control" ng-model="main.addingVideo.url"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label">Annotation: </label>
+                            <textarea class="form-control" ng-model="main.addingVideo.annoPath"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="main.addVideoSrc()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <!-- The container for the modal slides -->
+    <div class="slides"></div>
+    <!-- Controls for the borderless lightbox -->
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+    <!-- The modal dialog, which will be used to wrap the lightbox content -->
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body next"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left prev">
+                        <i class="glyphicon glyphicon-chevron-left"></i>
+                        Previous
+                    </button>
+                    <button type="button" class="btn btn-primary next">
+                        Next
+                        <i class="glyphicon glyphicon-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

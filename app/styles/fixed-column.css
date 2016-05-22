@@ -1,0 +1,23 @@
+
+#left {
+
+}
+
+#right {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-left: 1px solid rgba(99, 99, 100, 0.3);
+    padding-left: 40px;
+}
+
+.height-482 {
+    height: 482px;
+}
+
+.text-top-col {
+    position: absolute;
+}
+
+.ss-content {
+    margin-top: 50px;
+}
