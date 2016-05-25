@@ -4,8 +4,6 @@
 <!--});-->
 <!--</script>-->
 
-
-
 <div class="container">
     <h1 class="media-heading">
         <div class="body-top">
@@ -15,12 +13,12 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="main-title">
-                                Video: {{main.mainVideo.id}}
+                                Camera: {{main.mainVideo.id}}
                             </div>
                             <div class="col-md-9 height-482" id="left">
                                 <video id="mainVideo" class="content video-js vjs-default-skin full-video"
                                        preload="auto" controls
-                                       data-setup="{}" >
+                                       data-setup="{ 'playbackRates' : [0.5, 1, 1.5, 2] }" >
                                     <source src='video/sample.mp4'>
                                 </video>
                             </div>
@@ -57,14 +55,15 @@
                          *  ===== VideoJs Register Components =====
                          */
                         var videoPlayer = videojs("#mainVideo");
-                        //TODO to compllete
+
+                        //Wait a moment for the player ready
                         setTimeout(function(){
                             videoPlayer.captureScreen(
                                     angular.element($('#lethApp')).scope().$$childHead.thumbImages
                                     ,4
                             );
+                            videoPlayer.recordVideo();
                         },100);
-
 
                         /* ===== Annotation  ===== */
                         var annotationButtonClass = videojs.extend(videoJsButtonClass, {
@@ -90,7 +89,7 @@
 
     <div class="body-bottom">
         <div>
-            <h3>Other videos</h3>
+            <h3>Other cameras</h3>
         </div>
         <ul class="thumbnails image_picker_selector">
             <li ng-repeat="videoSrc in main.videoArray">
@@ -218,37 +217,37 @@
     </div>
 </div>
 
-
-<div id="blueimp-gallery" class="blueimp-gallery">
-    <!-- The container for the modal slides -->
-    <div class="slides"></div>
-    <!-- Controls for the borderless lightbox -->
-    <h3 class="title"></h3>
-    <a class="prev">‹</a>
-    <a class="next">›</a>
-    <a class="close">×</a>
-    <a class="play-pause"></a>
-    <ol class="indicator"></ol>
-    <!-- The modal dialog, which will be used to wrap the lightbox content -->
-    <div class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body next"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left prev">
-                        <i class="glyphicon glyphicon-chevron-left"></i>
-                        Previous
-                    </button>
-                    <button type="button" class="btn btn-primary next">
-                        Next
-                        <i class="glyphicon glyphicon-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Uncomment to use blueimp-gallery -->
+<!--<div id="blueimp-gallery" class="blueimp-gallery">-->
+    <!--&lt;!&ndash; The container for the modal slides &ndash;&gt;-->
+    <!--<div class="slides"></div>-->
+    <!--&lt;!&ndash; Controls for the borderless lightbox &ndash;&gt;-->
+    <!--<h3 class="title"></h3>-->
+    <!--<a class="prev">‹</a>-->
+    <!--<a class="next">›</a>-->
+    <!--<a class="close">×</a>-->
+    <!--<a class="play-pause"></a>-->
+    <!--<ol class="indicator"></ol>-->
+    <!--&lt;!&ndash; The modal dialog, which will be used to wrap the lightbox content &ndash;&gt;-->
+    <!--<div class="modal fade">-->
+        <!--<div class="modal-dialog">-->
+            <!--<div class="modal-content">-->
+                <!--<div class="modal-header">-->
+                    <!--<button type="button" class="close" aria-hidden="true">&times;</button>-->
+                    <!--<h4 class="modal-title"></h4>-->
+                <!--</div>-->
+                <!--<div class="modal-body next"></div>-->
+                <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-default pull-left prev">-->
+                        <!--<i class="glyphicon glyphicon-chevron-left"></i>-->
+                        <!--Previous-->
+                    <!--</button>-->
+                    <!--<button type="button" class="btn btn-primary next">-->
+                        <!--Next-->
+                        <!--<i class="glyphicon glyphicon-chevron-right"></i>-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->

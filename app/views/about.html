@@ -1,62 +1,131 @@
-<div id="blueimp-gallery" class="blueimp-gallery">
-  <!-- The container for the modal slides -->
-  <div class="slides"></div>
-  <!-- Controls for the borderless lightbox -->
-  <h3 class="title"></h3>
-  <a class="prev">‹</a>
-  <a class="next">›</a>
-  <a class="close">×</a>
-  <a class="play-pause"></a>
-  <ol class="indicator"></ol>
-  <!-- The modal dialog, which will be used to wrap the lightbox content -->
-  <div class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" aria-hidden="true">&times;</button>
-          <h4 class="modal-title"></h4>
-        </div>
-        <div class="modal-body next"></div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left prev">
-            <i class="glyphicon glyphicon-chevron-left"></i>
-            Previous
-          </button>
-          <button type="button" class="btn btn-primary next">
-            Next
-            <i class="glyphicon glyphicon-chevron-right"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!--<div id="blueimp-gallery" class="blueimp-gallery">-->
+  <!--&lt;!&ndash; The container for the modal slides &ndash;&gt;-->
+  <!--<div class="slides"></div>-->
+  <!--&lt;!&ndash; Controls for the borderless lightbox &ndash;&gt;-->
+  <!--<h3 class="title"></h3>-->
+  <!--<a class="prev">‹</a>-->
+  <!--<a class="next">›</a>-->
+  <!--<a class="close">×</a>-->
+  <!--<a class="play-pause"></a>-->
+  <!--<ol class="indicator"></ol>-->
+  <!--&lt;!&ndash; The modal dialog, which will be used to wrap the lightbox content &ndash;&gt;-->
+  <!--<div class="modal fade">-->
+    <!--<div class="modal-dialog">-->
+      <!--<div class="modal-content">-->
+        <!--<div class="modal-header">-->
+          <!--<button type="button" class="close" aria-hidden="true">&times;</button>-->
+          <!--<h4 class="modal-title"></h4>-->
+        <!--</div>-->
+        <!--<div class="modal-body next"></div>-->
+        <!--<div class="modal-footer">-->
+          <!--<button type="button" class="btn btn-default pull-left prev">-->
+            <!--<i class="glyphicon glyphicon-chevron-left"></i>-->
+            <!--Previous-->
+          <!--</button>-->
+          <!--<button type="button" class="btn btn-primary next">-->
+            <!--Next-->
+            <!--<i class="glyphicon glyphicon-chevron-right"></i>-->
+          <!--</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
 
-<div id="links">
-  <h4>Creator</h4>
-  <div class="w3s-img">
-    <a href="images/shane_cover.jpg" title="Le Quang Thanh" data-gallery>
-      <img src="images/medium.jpg"  width="300" height="200">
-    </a>
-    <div class="w3s-img-desc">Le Quang Thanh</div>
-  </div>
-  <div class="w3s-img">
-    <a href="images/shane_cover.jpg" title="Thang" data-gallery>
-      <img src="images/pauls.jpg"   width="300" height="200">
-    </a>
-    <div class="w3s-img-desc">Thang</div>
-  </div>
-  <div class="w3s-img">
-    <a href="images/shane_cover.jpg" title="The" data-gallery>
-      <img src="images/shane_cover.jpg"   width="300" height="200">
-    </a>
-    <div class="w3s-img-desc">The</div>
-  </div>
-  <div class="w3s-img">
-    <a href="images/shane_cover.jpg" title="Tan" data-gallery>
-      <img src="images/shane_cover.jpg"   width="300" height="200">
-    </a>
-    <div class="w3s-img-desc">Tan</div>
-  </div>
-</div>
+<!--<div id="links">-->
+  <!--<h4>Creator</h4>-->
+  <!--<div class="w3s-img">-->
+    <!--<a href="images/shane_cover.jpg" title="Le Quang Thanh" data-gallery>-->
+      <!--<img src="images/medium.jpg"  width="300" height="200">-->
+    <!--</a>-->
+    <!--<div class="w3s-img-desc">Le Quang Thanh</div>-->
+  <!--</div>-->
+  <!--<div class="w3s-img">-->
+    <!--<a href="images/shane_cover.jpg" title="Thang" data-gallery>-->
+      <!--<img src="images/pauls.jpg"   width="300" height="200">-->
+    <!--</a>-->
+    <!--<div class="w3s-img-desc">Thang</div>-->
+  <!--</div>-->
+  <!--<div class="w3s-img">-->
+    <!--<a href="images/shane_cover.jpg" title="The" data-gallery>-->
+      <!--<img src="images/shane_cover.jpg"   width="300" height="200">-->
+    <!--</a>-->
+    <!--<div class="w3s-img-desc">The</div>-->
+  <!--</div>-->
+  <!--<div class="w3s-img">-->
+    <!--<a href="images/shane_cover.jpg" title="Tan" data-gallery>-->
+      <!--<img src="images/shane_cover.jpg"   width="300" height="200">-->
+    <!--</a>-->
+    <!--<div class="w3s-img-desc">Tan</div>-->
+  <!--</div>-->
+<!--</div>-->
 
+
+
+<video id="video"
+       preload="auto" controls width="800" height="450">
+  <source src='video/sample.mp4'>]
+
+</video>
+
+<script>
+
+  // Google keyword: creating-webm-video-from-getusermedia
+
+  var navigator = window.navigator;
+  navigator.getMedia = ( navigator.getUserMedia ||
+                          navigator.webkitGetUserMedia ||
+                          navigator.mozGetUserMedia ||
+                          navigator.msGetUserMedia);
+
+  var video = document.querySelector('#video');
+  video.autoplay = true; // Make sure we're not frozen!
+
+//  // Note: not using vendor prefixes!
+//  navigator.getMedia({video: true}, function(stream) {
+//    video.src = window.URL.createObjectURL(stream);
+//    console.log(stream);
+//  }, function(e) {
+//    console.error(e);
+//  });
+
+  var canvas = document.createElement("canvas");
+  canvas.width = 800;
+  canvas.height = 450;
+  var ctx = canvas.getContext('2d');
+
+  var rafId;
+  var frames = [];
+  var CANVAS_WIDTH = canvas.width;
+  var CANVAS_HEIGHT = canvas.height;
+
+  function drawVideoFrame(time) {
+    rafId = requestAnimationFrame(drawVideoFrame);
+    ctx.drawImage(video, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    frames.push(canvas.toDataURL('image/webp', 1));
+  };
+
+  rafId = requestAnimationFrame(drawVideoFrame); // Note: not using vendor prefixes!
+
+  function stop() {
+    cancelAnimationFrame(rafId);  // Note: not using vendor prefixes!
+
+    // 2nd param: framerate for the video file.
+    var webmBlob = Whammy.fromImageArray(frames, 1000 / 80);
+
+    var video = document.createElement('video');
+    video.src = window.URL.createObjectURL(webmBlob);
+    video.setAttribute("controls",true);
+    document.body.appendChild(video);
+    document.querySelector("#adownload").setAttribute('href',video.src);
+  }
+
+  setTimeout(function(){
+    stop();
+
+  }, 3000);
+
+
+</script>
+
+<a id="adownload" download="video.webm" title="Download recorded video">[Download recorded]</a>

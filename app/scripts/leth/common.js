@@ -125,13 +125,14 @@ function test(videoPlayer){
     downloadButton.addClass("vjs-subtitles-button");
 }
 
-//<div class="w3s-img">
-//    <a href='{{image.data}}' title="Banana" data-gallery>
-//<img src='{{image.data}}' alt="Northern Lights" width="200" height="200">
-//    </a>
-//    <div class="w3s-img-desc">{{image.name}}</div>
-//</div>
-//* ======= Create ======= *//
+    //<div class="w3s-img">
+    //    <a href='{{image.data}}' title="Banana" data-gallery>
+    //<img src='{{image.data}}' alt="Northern Lights" width="200" height="200">
+    //    </a>
+    //    <div class="w3s-img-desc">{{image.name}}</div>
+    //</div>
+    //* ======= Create ======= *//
+
 function insertImage(id, imageObj){
 
     var div = document.createElement("div");
@@ -153,4 +154,34 @@ function insertImage(id, imageObj){
     div.appendChild(a);
     //div.appendChild(desDiv);
     document.getElementById('links').appendChild(div);
+}
+
+// ===== Insert video ===== //
+function insertVideo(video){
+    var div = document.createElement("div");
+    div.className += " w3s-img";
+    var a = document.createElement("a");
+    a.className += " w3s-img";
+    var id = Date.now();
+    video.setAttribute("id", id);
+    video.className += " video-js vjs-default-skin"
+
+    //var desDiv = document.createElement("div");
+    //desDiv.className += " w3s-img-desc";
+    //desDiv.textContent(imageObj.name);
+
+    a.appendChild(video);
+    div.appendChild(a);
+    //div.appendChild(desDiv);
+    document.getElementById('links').appendChild(div);
+    setTimeout(function(){
+        videojs(id + "" , {
+            "width":200,
+            "height": 200,
+            'playbackRates' : [0.5, 1, 1.5, 2]
+        }, function(){});
+
+        videojs(id + "").downloadVideo();
+
+    }, 100);
 }
